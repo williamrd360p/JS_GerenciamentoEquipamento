@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Equipamentos</title>
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <script>
+        // 1 - Criar um objeto de Equipamento
+        function Equipamento(codigo, nome, preco) {
+            this.codigo = codigo;
+            this.nome = nome;
+            this.preco = preco;
+        }
+
+
+        // Array para armazenar os equipamentos
+        let equipamentos = [];
+
+
+        // 2 - Inserir um novo equipamento
+        function adicionarEquipamento() {
+            const codigo = document.getElementById('codigo').value;
+            const nome = document.getElementById('nome').value;
+            const preco = document.getElementById('preco').value;
+
+
+            // Validação simples
+            if (codigo && nome && preco) {
+                const novoEquipamento = new Equipamento(codigo, nome, parseFloat(preco));
+                equipamentos.push(novoEquipamento);
+                exibirEquipamentos();
+            } else {
+                alert('Por favor, preencha todos os campos!');
+            }
+
+
+            // Limpar campos de entrada
+            document.getElementById('codigo').value = '';
+            document.getElementById('nome').value = '';
+            document.getElementById('preco').value = '';
+        }
+
+        
+        // 3 - Exibir os dados dos equipamentos no console e na tela
+        function exibirEquipamentos() {
+            const listaEquipamentos = document.getElementById('listaEquipamentos');
+            listaEquipamentos.innerHTML = ''; 
+            
+
+            // Limpar a lista antes de exibir novamente
+            equipamentos.forEach((equipamento) => {
+                const li = document.createElement('li');
+                li.textContent = `Código: ${equipamento.codigo} - Nome: ${equipamento.nome} - Preço: R$ ${equipamento.preco.toFixed(2)}`;
+                listaEquipamentos.appendChild(li);
+            });
+
+
+            // Exibir no console também
+            console.log(equipamentos);
+        }
+
+
+        // 4 - Atualiza o preço de um equipamento
+        function atualizarPreco() {
+            const codigoAtualizacao = document.getElementById('codigoAtualizacao').value;
+            const precoAtualizacao = document.getElementById('precoAtualizacao').value;
+
+            if (codigoAtualizacao && precoAtualizacao) {
+                const equipamento = equipamentos.find((equip) => equip.codigo == codigoAtualizacao);
+                if (equipamento) {
+                    equipamento.preco = parseFloat(precoAtualizacao);
+                    exibirEquipamentos();
+                    alert('atualizei o preço zé :)');
+                } else {
+                    alert('encontrei o equipamento nao viado');
+                }
+            } else {
+                alert('preenche os campo ai né malandro');
+            }
+
+
+            // Limpa os campos de atualização
+            document.getElementById('codigoAtualizacao').value = '';
+            document.getElementById('precoAtualizacao').value = '';
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Gerenciamento de Equipamentos</h1>
+  
+    <div>
+        <h3>Inserir Novo Equipamento</h3>
+        <h1></h1>
+        <label for="codigo">Código: </label>
+        <input type="number" id="codigo" placeholder="Código do Equipamento"><br><br>
+
+        <label for="nome">Nome: </label>
+        <input type="text" id="nome" placeholder="Nome do Equipamento"><br><br>
+
+        <label for="preco">Preço: </label>
+        <input type="number" id="preco" placeholder="Preço do Equipamento"><br><br>
+
+        <button onclick="adicionarEquipamento()">Adicionar Equipamento</button>
+    </div>
+
+
+<h1></h1> 
+
+    <h3>Lista de Equipamentos</h3>
+    <ul id="listaEquipamentos"></ul>
+    
+    <h1></h1>
+
+    <h3>Atualizar Preço</h3> 
+    <label for="codigoAtualizacao">Código do Equipamento: </label>
+    <input type="number" id="codigoAtualizacao" placeholder="Código do Equipamento"><br><br>
+
+    <label for="precoAtualizacao">Novo Preço: </label>
+    <input type="number" id="precoAtualizacao" placeholder="Novo Preço"><br><br>
+
+    <button onclick="atualizarPreco()">Atualizar Preço</button>
+
+
+</body>
+</html>
